@@ -1,0 +1,221 @@
+/* =========================================================
+   MAKE MUSE - スマホ優先 / 清潔感のある美容系トーン
+   ========================================================= */
+:root {
+  --bg: #fdfaf8;
+  --surface: #ffffff;
+  --text: #3a3236;
+  --muted: #8c8287;
+  --line: #efe6e6;
+  --accent: #c98a94;        /* くすみローズ */
+  --accent-deep: #a9646f;
+  --accent-soft: #f7e9eb;
+  --radius: 16px;
+  --shadow: 0 2px 14px rgba(120, 80, 90, .07);
+  --font: "Noto Sans JP", system-ui, -apple-system, "Hiragino Sans", sans-serif;
+  --font-en: "Cormorant Garamond", Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.7;
+  letter-spacing: .02em;
+}
+a { color: var(--accent-deep); }
+button { font: inherit; color: inherit; cursor: pointer; }
+[hidden] { display: none !important; }
+
+.container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 12px; }
+
+/* ---------- header ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(253, 250, 248, .92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.site-header .container { display: flex; align-items: center; height: 56px; }
+.logo { display: flex; flex-direction: column; text-decoration: none; color: var(--text); line-height: 1.1; }
+.logo-en { font-family: var(--font-en); font-size: 24px; font-weight: 600; letter-spacing: .14em; }
+.logo-ja { font-size: 10px; color: var(--muted); letter-spacing: .12em; margin-top: 2px; }
+
+/* ---------- hero ---------- */
+.hero { padding: 22px 4px 6px; text-align: center; }
+.hero-lead { margin: 0; font-size: 14px; color: var(--muted); }
+
+/* ---------- search ---------- */
+.search { margin: 14px 0 6px; }
+.search-box {
+  position: relative; display: flex; align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  transition: border-color .2s;
+}
+.search-box:focus-within { border-color: var(--accent); }
+.search-icon { width: 18px; height: 18px; margin-left: 16px; color: var(--muted); flex: none; }
+#search-input {
+  flex: 1; min-width: 0;
+  border: 0; outline: 0; background: transparent;
+  padding: 13px 10px;
+  font: inherit; font-size: 16px; /* iOSのズーム防止 */
+  color: var(--text);
+}
+#search-input::-webkit-search-cancel-button { display: none; }
+.search-clear {
+  border: 0; background: var(--accent-soft); color: var(--accent-deep);
+  width: 28px; height: 28px; border-radius: 50%; margin-right: 8px; line-height: 1;
+}
+.search-hint { min-height: 1.4em; margin: 8px 6px 0; font-size: 12px; color: var(--muted); }
+.search-hint b { color: var(--accent-deep); font-weight: 500; }
+
+/* ---------- tags ---------- */
+.tags { margin: 14px 0 6px; }
+.tags-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.section-title { margin: 0 0 10px; font-size: 14px; font-weight: 500; }
+.section-title small { font-size: 11px; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.text-btn { border: 0; background: none; padding: 4px 2px; font-size: 12px; color: var(--accent-deep); text-decoration: underline; text-underline-offset: 3px; }
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-list.is-collapsed { max-height: 84px; overflow: hidden; }
+.tags-more { margin-top: 6px; }
+
+.tag-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.tag-chip:hover { border-color: var(--accent); }
+.tag-chip .count { font-size: 11px; color: var(--muted); }
+.tag-chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tag-chip[aria-pressed="true"] .count { color: rgba(255,255,255,.85); }
+.tag-chip:disabled { opacity: .35; cursor: default; }
+
+/* ---------- results ---------- */
+.results { margin-top: 10px; }
+.result-count { font-size: 12px; color: var(--muted); margin: 0 4px 10px; }
+
+.pin-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+@media (min-width: 720px)  { .pin-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1080px) { .pin-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.pin-wrap {
+  display: flex; justify-content: center;
+  min-height: 120px;
+  padding-top: 8px;
+  overflow: hidden;
+}
+.pin-wrap > span { max-width: 100%; }
+
+/* 埋め込みが読み込めなかった時の代替表示 */
+.pin-fallback {
+  width: 100%; aspect-ratio: 3 / 4; max-height: 420px;
+  margin: 0 8px;
+  border-radius: 12px;
+  background: linear-gradient(160deg, #f8e8ea 0%, #fbf3ee 55%, #efe3ea 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  text-align: center; color: var(--muted); font-size: 13px; padding: 16px;
+}
+.pin-fallback .fb-title { font-family: var(--font-en); font-size: 22px; color: var(--accent-deep); letter-spacing: .1em; }
+.pin-fallback a {
+  display: inline-block; padding: 6px 14px; border-radius: 999px;
+  background: #fff; color: var(--accent-deep); text-decoration: none; font-size: 12px;
+}
+
+.card-body { padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 10px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.card-tag {
+  border: 0; background: var(--accent-soft); color: var(--accent-deep);
+  font-size: 12px; padding: 3px 10px; border-radius: 999px;
+}
+.card-tag.is-active { background: var(--accent); color: #fff; }
+
+.comment { margin: 0; font-size: 14px; }
+.label {
+  display: inline-block; font-size: 10px; letter-spacing: .1em;
+  color: var(--accent-deep); border: 1px solid var(--accent);
+  border-radius: 4px; padding: 0 6px; margin-right: 6px; vertical-align: 1px;
+}
+.cosme {
+  margin: 0; font-size: 13px;
+  border-top: 1px dashed var(--line); padding-top: 10px;
+}
+.cosme-name { font-weight: 500; }
+
+/* アフィリエイトリンク（ボタン） */
+.affiliate-btn {
+  display: block; text-align: center; margin-top: 8px;
+  padding: 9px 12px; border-radius: 10px;
+  background: var(--text); color: #fff; text-decoration: none; font-size: 13px;
+}
+.affiliate-btn:hover { opacity: .88; }
+.pr { font-size: 10px; color: var(--muted); margin-left: 4px; }
+
+/* ---------- 広告枠 ---------- */
+.ad-slot { margin: 18px 0; }
+.ad-slot:empty { display: none; }
+.pin-grid .ad-slot { margin: 0; }
+/* 開発中のプレースホルダー表示（app.js の CONFIG.showAdPlaceholders で切替） */
+.show-ad-ph .ad-slot:empty {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100px;
+  border: 1px dashed #dccfd1; border-radius: var(--radius);
+  color: #b9adb0; font-size: 12px; letter-spacing: .1em;
+}
+.show-ad-ph .ad-slot:empty::before { content: "AD SPACE（" attr(data-ad) "）"; }
+.show-ad-ph .pin-grid .ad-slot:empty { min-height: 250px; }
+
+/* ---------- 0件 ---------- */
+.empty {
+  text-align: center; padding: 32px 16px;
+  background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.empty-title { margin: 0 0 4px; font-weight: 500; }
+.empty-sub { margin: 0 0 16px; font-size: 13px; color: var(--muted); }
+.suggest-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+
+/* ---------- pager ---------- */
+.pager { display: flex; justify-content: center; align-items: center; gap: 6px; margin: 26px 0 8px; flex-wrap: wrap; }
+.pager button {
+  min-width: 38px; height: 38px; padding: 0 10px;
+  border: 1px solid var(--line); background: var(--surface); border-radius: 999px; font-size: 13px;
+}
+.pager button[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.pager button:disabled { opacity: .35; cursor: default; }
+.pager .gap { color: var(--muted); padding: 0 2px; }
+
+/* ---------- footer ---------- */
+.site-footer { margin-top: 32px; padding: 24px 0 32px; border-top: 1px solid var(--line); text-align: center; }
+.footer-note { margin: 0 0 4px; font-size: 11px; color: var(--muted); }
+.copyright { margin: 12px 0 0; font-family: var(--font-en); letter-spacing: .14em; color: var(--muted); }
+
+@media (min-width: 720px) {
+  .container { padding: 0 20px; }
+  .hero { padding-top: 34px; }
+  .hero-lead { font-size: 15px; }
+  .search { max-width: 640px; margin-left: auto; margin-right: auto; }
+}

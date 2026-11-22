@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MAKE MUSE｜厳選メイクだけを集めたピン図鑑</title>
+  <meta name="description" content="Pinterestから“メイク画像だけ”を厳選。#一重 #中顔面短縮 #涙袋 などのタグで、悩みに合うメイクがすぐ見つかるキュレーションサイト。">
+  <meta property="og:title" content="MAKE MUSE｜厳選メイクだけを集めたピン図鑑">
+  <meta property="og:description" content="悩み別タグで探せる、純粋なメイク画像だけのキュレーション。">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- ================================================================
+       AdSense を使う場合はここに審査用/自動広告のコードを貼る
+       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+       ================================================================ -->
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="./">
+        <span class="logo-en">MAKE MUSE</span>
+        <span class="logo-ja">厳選メイクだけのピン図鑑</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <p class="hero-lead">メイク以外の画像はゼロ。<br>悩み別タグで、あなたに似合うメイクを。</p>
+    </section>
+
+    <!-- 検索 -->
+    <section class="search" aria-label="検索">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="search-input" type="search" inputmode="search" autocomplete="off"
+               placeholder="例：奥二重、面長、涙袋" aria-label="キーワードで検索">
+        <button id="search-clear" class="search-clear" type="button" aria-label="検索語を消す" hidden>×</button>
+      </div>
+      <p id="search-hint" class="search-hint" aria-live="polite"></p>
+    </section>
+
+    <!-- タグ -->
+    <section class="tags" aria-label="タグで絞り込み">
+      <div class="tags-head">
+        <h2 class="section-title">タグで絞り込む <small>複数選択でAND検索</small></h2>
+        <button id="tags-reset" class="text-btn" type="button" hidden>すべて解除</button>
+      </div>
+      <div id="tag-list" class="tag-list"></div>
+      <button id="tags-more" class="text-btn tags-more" type="button" hidden>もっと見る</button>
+    </section>
+
+    <!-- 広告枠：上部（AdSense ディスプレイ広告などを想定） -->
+    <aside class="ad-slot ad-slot--top" data-ad="top" aria-label="広告"></aside>
+
+    <!-- 結果 -->
+    <section class="results" aria-label="検索結果">
+      <p id="result-count" class="result-count" aria-live="polite"></p>
+      <div id="pin-grid" class="pin-grid"></div>
+      <div id="empty" class="empty" hidden></div>
+      <nav id="pager" class="pager" aria-label="ページ送り"></nav>
+    </section>
+
+    <!-- 広告枠：下部 -->
+    <aside class="ad-slot ad-slot--bottom" data-ad="bottom" aria-label="広告"></aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-note">掲載画像の著作権は各Pinterest投稿者に帰属します。画像はPinterest公式の埋め込み機能で表示しています。</p>
+      <p class="footer-note">当サイトはアフィリエイトプログラムを利用しています。</p>
+      <p class="copyright">© MAKE MUSE</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <!-- Pinterest公式ウィジェット。data-pin-build で再描画用の関数名を公開 -->
+  <script async defer src="https://assets.pinterest.com/js/pinit.js" data-pin-build="parsePins"></script>
+</body>
+</html>

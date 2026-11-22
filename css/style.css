@@ -41,14 +41,28 @@ button { font: inherit; color: inherit; cursor: pointer; }
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
-.site-header .container { display: flex; align-items: center; height: 56px; }
-.logo { display: flex; flex-direction: column; text-decoration: none; color: var(--text); line-height: 1.1; }
+.site-header .container { display: flex; flex-wrap: wrap; align-items: center; column-gap: 16px; min-height: 56px; }
+.logo { display: flex; flex-direction: column; text-decoration: none; color: var(--text); line-height: 1.1; padding: 9px 0 6px; }
+
+/* 共通メニュー（スマホは2段目、PCはロゴの右） */
+.site-nav { width: 100%; }
+.site-nav ul {
+  display: flex; gap: 4px; margin: 0 -4px; padding: 0 0 8px; list-style: none;
+  overflow-x: auto; scrollbar-width: none;
+}
+.site-nav ul::-webkit-scrollbar { display: none; }
+.site-nav a {
+  display: block; padding: 5px 12px; border-radius: 999px;
+  font-size: 12px; color: var(--muted); text-decoration: none; white-space: nowrap;
+}
+.site-nav a:hover { color: var(--accent-deep); background: var(--accent-soft); }
+.site-nav a[aria-current="page"] { background: var(--accent); color: #fff; }
 .logo-en { font-family: var(--font-en); font-size: 24px; font-weight: 600; letter-spacing: .14em; }
 .logo-ja { font-size: 10px; color: var(--muted); letter-spacing: .12em; margin-top: 2px; }
 
 /* ---------- hero ---------- */
 .hero { padding: 22px 4px 6px; text-align: center; }
-.hero-lead { margin: 0; font-size: 14px; color: var(--muted); }
+.hero-lead { margin: 0; font-size: 14px; font-weight: 400; line-height: 1.7; color: var(--muted); }
 
 /* ---------- search ---------- */
 .search { margin: 14px 0 6px; }
@@ -234,4 +248,102 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .hero { padding-top: 34px; }
   .hero-lead { font-size: 15px; }
   .search { max-width: 640px; margin-left: auto; margin-right: auto; }
+  .site-header .container { flex-wrap: nowrap; height: 56px; }
+  .logo { padding: 0; }
+  .site-nav { width: auto; margin-left: auto; }
+  .site-nav ul { padding: 0; }
+  .site-nav a { font-size: 13px; }
+}
+
+/* =========================================================
+   読みものページ（メイクの順番 / 用語まとめ）
+   ========================================================= */
+.doc { max-width: 760px; padding-bottom: 8px; }
+.doc [id] { scroll-margin-top: 108px; }
+.doc-head { padding: 24px 4px 4px; text-align: center; }
+.doc-head h1 { margin: 0 0 8px; font-size: 22px; font-weight: 500; letter-spacing: .06em; }
+.doc-lead { margin: 0; font-size: 13px; color: var(--muted); }
+.doc h2 {
+  margin: 34px 0 12px; font-size: 18px; font-weight: 500;
+  padding-left: 10px; border-left: 3px solid var(--accent);
+}
+.doc h3 { margin: 0 0 8px; font-size: 16px; font-weight: 500; }
+.doc p { margin: 0 0 10px; }
+.note { font-size: 12px; color: var(--muted); }
+
+.panel {
+  background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+/* 目次・ジャンプボタン */
+.toc { margin-top: 18px; }
+.toc-title { margin: 0 0 8px; font-size: 13px; font-weight: 500; }
+.toc ol, .toc ul { margin: 0; padding-left: 1.4em; font-size: 13px; }
+.toc li { margin: 2px 0; }
+.toc .toc-sub { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 0 2px; list-style: none; }
+.toc a { text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+
+.chip-link {
+  display: inline-block; border-radius: 999px; padding: 3px 10px;
+  font-size: 12px; text-decoration: none; white-space: nowrap;
+  background: var(--accent-soft); color: var(--accent-deep);
+}
+.chip-link:hover { background: var(--accent); color: #fff; }
+.chip-link--pin { background: var(--surface); border: 1px solid var(--accent); }
+
+/* 基本ルール・時短ステップ */
+.rule-list, .quick-list { margin: 0; padding-left: 1.6em; }
+.rule-list li, .quick-list li { margin: 6px 0; }
+.rule-list b, .quick-list b { font-weight: 500; color: var(--accent-deep); }
+
+/* フルコースのステップ */
+.steps { display: flex; flex-direction: column; gap: 14px; }
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 28px; height: 28px; margin-right: 8px; border-radius: 50%;
+  background: var(--accent); color: #fff; font-size: 13px; font-weight: 500;
+}
+.step-tip { margin: 0 0 8px; font-size: 13px; color: var(--accent-deep); }
+.step-dl { margin: 0; display: grid; grid-template-columns: 1fr; gap: 2px; font-size: 14px; }
+.step-dl dt { font-size: 11px; color: var(--muted); letter-spacing: .08em; margin-top: 6px; }
+.step-dl dd { margin: 0; }
+.links-row { display: flex; flex-wrap: wrap; gap: 6px; }
+@media (min-width: 720px) {
+  .step-dl { grid-template-columns: 9em 1fr; column-gap: 12px; row-gap: 6px; }
+  .step-dl dt { margin-top: 2px; }
+}
+
+/* よくある質問 */
+.faq { display: flex; flex-direction: column; gap: 8px; }
+.faq details { background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 16px; }
+.faq summary { cursor: pointer; font-weight: 500; font-size: 14px; }
+.faq details p { margin: 8px 0 0; font-size: 14px; }
+
+/* 用語まとめ */
+.gl-tools { position: relative; }
+.gl-search { margin: 0 0 12px; }
+.gl-search input {
+  width: 100%; border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+  padding: 11px 16px; font: inherit; font-size: 16px; color: var(--text); outline: 0;
+}
+.gl-search input:focus { border-color: var(--accent); }
+.gl-count { min-height: 1.4em; margin: 6px 6px 0; font-size: 12px; color: var(--muted); }
+.jump, .toc .jump { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.gl-cat { margin-top: 6px; }
+.terms { display: flex; flex-direction: column; gap: 12px; }
+.term h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
+.term-yomi { font-size: 12px; color: var(--muted); font-weight: 400; }
+.term-langs { margin: 0 0 8px; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; font-size: 13px; }
+.term-langs dt { font-size: 11px; color: var(--muted); padding-top: 2px; }
+.term-langs dd { margin: 0; overflow-wrap: anywhere; }
+.term-langs .blank { color: #c4b8bb; }
+.term-short { margin: 0 0 6px; font-weight: 500; font-size: 14px; }
+.term-more { margin: 0 0 10px; font-size: 14px; }
+.term-foot { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; color: var(--muted); }
+.gl-empty { text-align: center; padding: 24px 16px; color: var(--muted); font-size: 14px; }
+@media (min-width: 720px) {
+  .doc [id] { scroll-margin-top: 76px; }
+  .doc-head h1 { font-size: 26px; }
 }

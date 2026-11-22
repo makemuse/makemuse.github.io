@@ -160,6 +160,22 @@ button { font: inherit; color: inherit; cursor: pointer; }
   color: var(--accent-deep); border: 1px solid var(--accent);
   border-radius: 4px; padding: 0 6px; margin-right: 6px; vertical-align: 1px;
 }
+/* 元の作者・元のタグ */
+.source-info {
+  display: flex; flex-direction: column; gap: 2px;
+  min-width: 0;
+  font-size: 11px; line-height: 1.6; color: var(--muted);
+  overflow-wrap: anywhere; word-break: break-word;
+}
+.src-row { margin: 0; }
+.src-label { color: var(--muted); }
+.source-info a { color: var(--accent-deep); text-decoration: underline; text-underline-offset: 2px; }
+.source-info a:hover { color: var(--accent); }
+.orig-tags { display: flex; flex-wrap: wrap; align-items: baseline; }
+.orig-tags ul { display: flex; flex-wrap: wrap; gap: 0 8px; margin: 0; padding: 0; list-style: none; min-width: 0; }
+.orig-tags li { color: var(--accent-deep); }
+.orig-ja { color: var(--muted); }
+
 .cosme {
   margin: 0; font-size: 13px;
   border-top: 1px dashed var(--line); padding-top: 10px;

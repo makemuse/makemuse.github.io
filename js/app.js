@@ -19,6 +19,7 @@
   const state = {
     pins: [],
     groups: [],        // 言い換えグループ（正規化済み）
+    transMap: new Map(), // 元のタグ（正規化済み）→ 日本語タグ（synonyms.json のキー）
     tagCounts: new Map(),
     query: "",
     selected: new Set(),
@@ -75,6 +76,25 @@
       .map(([k, v]) => [...new Set([k, ...(Array.isArray(v) ? v : [])].map(norm).filter(Boolean))]);
   }
 
+  // 元のタグ（中国語・韓国語など）→ 日本語タグ の対応表。synonyms.json のキーを訳として使う
+  function buildTransMap(syn) {
+    const map = new Map();
+    Object.entries(syn || {})
+      .filter(([k]) => !k.startsWith("_"))
+      .forEach(([k, v]) => {
+        [k, ...(Array.isArray(v) ? v : [])].forEach((w) => {
+          const n = norm(w);
+          if (n && !map.has(n)) map.set(n, k);
+        });
+      });
+    return map;
+  }
+
+  function translateTag(tag) {
+    const ja = state.transMap.get(norm(tag));
+    return ja && norm(ja) !== norm(tag) ? ja : "";
+  }
+
   // 1つの検索語 → 一緒に検索すべき語の集合（正規化済み）
   function expandTerm(term) {
     const t = norm(term);
@@ -108,6 +128,7 @@
       if (!sel.every((t) => p.tags.includes(t))) return false; // タグAND
       return terms.every((term) =>                                 // 検索語もAND
         p._tagsNorm.some((tn) => tagMatchesWords(tn, term.words)) ||
+        p._origNorm.some((tn) => tagMatchesWords(tn, term.words)) ||
         (term.n && p._cosmeNorm.includes(term.n))
       );
     });
@@ -207,6 +228,26 @@
     el.tagsMore.textContent = tagsExpanded ? "閉じる" : "もっと見る";
   }
 
+  // 元の作者・元のタグ
+  function sourceHTML(p) {
+    const name = String(p.source || "").trim().replace(/^@+/, "");
+    const plat = String(p.platform || "").trim();
+    let who = `<span class="src-pending">確認中</span>`;
+    if (name && name !== "不明") {
+      const label = `@${esc(name)}${plat && plat !== "不明" ? `（${esc(plat)}）` : ""}`;
+      const u = safeUrl(p.sourceUrl);
+      who = u ? `<a href="${esc(u)}" target="_blank" rel="noopener nofollow">${label}</a>` : label;
+    }
+    const orig = p.origTags.map((t) => {
+      const ja = translateTag(t);
+      return `<li>#${esc(t)}${ja ? `<span class="orig-ja">（${esc(ja)}）</span>` : ""}</li>`;
+    }).join("");
+    return `<div class="source-info">
+          <p class="src-row"><span class="src-label">元の作者：</span>${who}</p>
+          ${orig ? `<div class="src-row orig-tags"><span class="src-label">元のタグ：</span><ul>${orig}</ul></div>` : ""}
+        </div>`;
+  }
+
   function cardHTML(p) {
     const url = safeUrl(p.url);
     const tags = p.tags.map((t) =>
@@ -228,6 +269,7 @@
       <div class="card-body">
         <ul class="card-tags">${tags}</ul>
         ${p.comment ? `<p class="comment"><span class="label">監修</span>${esc(p.comment)}</p>` : ""}
+        ${sourceHTML(p)}
         ${cosme}
         <!-- アフィリエイト枠（カード単位）: 必要ならここに楽天/Amazonリンク等 -->
       </div>
@@ -407,9 +449,11 @@
       ]);
       state.pins = (Array.isArray(pins) ? pins : []).filter((p) => p && p.url).map((p) => {
         const tags = [...new Set((p.tags || []).map((t) => String(t).replace(/^#+/, "").trim()).filter(Boolean))];
-        return { ...p, tags, _tagsNorm: tags.map(norm), _cosmeNorm: norm(p.cosme) };
+        const origTags = [...new Set((Array.isArray(p.origTags) ? p.origTags : []).map((t) => String(t).replace(/^#+/, "").trim()).filter(Boolean))];
+        return { ...p, tags, origTags, _tagsNorm: tags.map(norm), _origNorm: origTags.map(norm), _cosmeNorm: norm(p.cosme) };
       });
       state.groups = buildGroups(syn);
+      state.transMap = buildTransMap(syn);
       state.pins.forEach((p) => p.tags.forEach((t) => state.tagCounts.set(t, (state.tagCounts.get(t) || 0) + 1)));
     } catch (err) {
       console.error(err);
